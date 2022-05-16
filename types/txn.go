@@ -103,6 +103,7 @@ const (
 	AccessListTxType int = 1
 	DynamicFeeTxType int = 2
 	StarknetTxType   int = 3
+	DepositTxType    int = 0x7e
 )
 
 var ErrParseTxn = fmt.Errorf("%w transaction", rlp.ErrParse)
@@ -136,11 +137,12 @@ func (ctx *TxParseContext) ParseTransaction(payload []byte, pos int, slot *TxSlo
 	if dataLen == 0 {
 		return 0, fmt.Errorf("%w: transaction must be either 1 list or 1 string", ErrParseTxn)
 	}
-	if dataLen == 1 && !legacy {
-		if hasEnvelope {
-			return 0, fmt.Errorf("%w: expected envelope in the payload, got %x", ErrParseTxn, payload[dataPos:dataPos+dataLen])
-		}
-	}
+	// NOTE: skip this for now
+	// if dataLen == 1 && !legacy {
+	// 	if hasEnvelope {
+	// 		return 0, fmt.Errorf("%w: expected envelope in the payload, got %x", ErrParseTxn, payload[dataPos:dataPos+dataLen])
+	// 	}
+	// }
 
 	p = dataPos
 
